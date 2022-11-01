@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/error_text.dart';
 import 'package:reddit_tutorial/core/constants/constants.dart';
 import 'package:reddit_tutorial/core/utils.dart';
+import 'package:reddit_tutorial/features/auth/models/community_model.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:reddit_tutorial/theme/palette.dart';
 
@@ -40,6 +41,12 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
     }
   }
 
+  void save(Community community) {
+    ref
+        .read(communityControllerProvider.notifier)
+        .editCommunity(profileFile: profileFile, bannerFile: bannerFile, context: context, community: community);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ref.watch(getCommunityByNameProvider(widget.name)).when(
@@ -50,7 +57,13 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
               appBar: AppBar(
                 title: const Text("Edit Community"),
                 centerTitle: false,
-                actions: [TextButton(onPressed: () {}, child: const Text("Save"))],
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        save(community);
+                      },
+                      child: const Text("Save"))
+                ],
               ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),

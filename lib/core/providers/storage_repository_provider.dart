@@ -1,0 +1,25 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:reddit_tutorial/core/failure.dart';
+import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
+import 'package:reddit_tutorial/core/type_defs.dart';
+final storageRepositoryProvider = Provider((ref) {
+return StorageRepository(firebaseStorage: ref.watch(storageProvider));
+ });
+class StorageRepository {
+  final FirebaseStorage _firabaseStorage;
+  StorageRepository({required FirebaseStorage firebaseStorage}) : _firabaseStorage = firebaseStorage;
+  FutureEither<String> storeFile({required String path, required String id, required File? file}) async {
+    try {
+      final ref = _firabaseStorage.ref().child(path).child(id);
+      UploadTask uploadTask = ref.putFile(file!);
+      final snapshot = await uploadTask;
+      return right(await snapshot.ref.getDownloadURL());
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+}
