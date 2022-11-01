@@ -8,7 +8,10 @@ import 'package:reddit_tutorial/features/auth/models/community_model.dart';
 
 import '../../../core/type_defs.dart';
 
-final communityRepositoryProvider=Provider((ref){return CommunityRepository(firestore: ref.watch(firestoreProvider));});
+final communityRepositoryProvider = Provider((ref) {
+  return CommunityRepository(firestore: ref.watch(firestoreProvider));
+});
+
 class CommunityRepository {
   final FirebaseFirestore _firestore;
 
@@ -20,12 +23,26 @@ class CommunityRepository {
       if (communityDoc.exists) {
         throw 'Community with the same name already exists';
       }
-      return right(_communities.doc(community.name).set(community.toMap()));
+      return right(_communities.doc(community.name).set(community.toJson()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<Community>> getUserCommunities(String uid) {
+    return _communities.where('members', arrayContains: uid).snapshots().map((event) {
+      List<Community> communities = [];
+      for (var doc in event.docs) {
+        communities.add(Community.fromJson(doc.data() as Map<String, dynamic>));
+      }
+      return communities;
+    });
+  }
+
+  Stream<Community> getCommunityByName(String name) {
+    return _communities.doc(name).snapshots().map((event) => Community.fromJson(event.data() as Map<String, dynamic>));
   }
 
   CollectionReference get _communities => _firestore.collection(FirebaseConstants.communitiesCollection);
