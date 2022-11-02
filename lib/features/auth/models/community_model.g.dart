@@ -11,13 +11,11 @@ _$_Community _$$_CommunityFromJson(Map<String, dynamic> json) => _$_Community(
       name: json['name'] as String?,
       banner: json['banner'] as String?,
       avatar: json['avatar'] as String?,
-      members:
-          (json['members'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      members: (json['members'] as List<dynamic>?)?.map((e) => e as String).toList(),
       mods: (json['mods'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_CommunityToJson(_$_Community instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_CommunityToJson(_$_Community instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'banner': instance.banner,
