@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 import 'package:reddit_tutorial/theme/palette.dart';
+import 'package:routemaster/routemaster.dart';
 
 class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key});
   void logOut(WidgetRef ref) {
     ref.read(authControllerProvider.notifier).logOut();
+  }
+
+  void navigateToUserProfile(BuildContext context, String uid) {
+    Routemaster.of(context).push('/u/$uid');
   }
 
   @override
@@ -34,7 +39,9 @@ class ProfileDrawer extends ConsumerWidget {
           ListTile(
             title: const Text("My Profile"),
             leading: const Icon(Icons.person),
-            onTap: () {},
+            onTap: () {
+              navigateToUserProfile(context, user.uid.toString());
+            },
           ),
           ListTile(
             title: const Text("Log Out"),

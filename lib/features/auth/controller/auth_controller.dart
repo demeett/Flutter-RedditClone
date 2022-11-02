@@ -19,6 +19,7 @@ final authStateChangeProvider = StreamProvider((ref) {
 });
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
+  final result = authController.getUserData(uid);
   return authController.getUserData(uid);
 });
 

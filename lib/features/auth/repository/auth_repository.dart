@@ -66,7 +66,7 @@ class AuthRepository {
   }
 
   void logOut() async {
-    _googleSignIn.signOut();
+   await  _googleSignIn.signOut();
     await _auth.signOut();
   }
 }
