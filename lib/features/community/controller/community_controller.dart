@@ -95,6 +95,7 @@ class CommunityController extends StateNotifier<bool> {
       required File? bannerFile,
       required BuildContext context,
       required Community community}) async {
+    state = true;
     if (profileFile != null) {
       final res = await _storageRepository.storeFile(
         path: "communites/profile",
