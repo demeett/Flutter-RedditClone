@@ -7,9 +7,9 @@ import 'package:reddit_tutorial/core/constants/constants.dart';
 import 'package:reddit_tutorial/core/failure.dart';
 import 'package:reddit_tutorial/core/constants/firebase_constants.dart';
 import 'package:reddit_tutorial/core/type_defs.dart';
-import 'package:reddit_tutorial/features/auth/models/user_models.dart';
 
 import '../../../core/providers/firebase_providers.dart';
+import '../../../models/user_models.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
     firebaseFirestore: ref.read(firestoreProvider),

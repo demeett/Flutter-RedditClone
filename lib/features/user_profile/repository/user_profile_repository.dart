@@ -6,7 +6,7 @@ import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
 import 'package:reddit_tutorial/core/type_defs.dart';
 
 import '../../../core/failure.dart';
-import '../../auth/models/user_models.dart';
+import '../../../models/user_models.dart';
 
 final userProfileRepositoryProvider = Provider((ref) {
   return UserProfileRepository(firestore: ref.watch(firestoreProvider));

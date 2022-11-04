@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
-import 'package:reddit_tutorial/features/auth/models/community_model.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../../core/common/error_text.dart';
+import '../../../models/community_model.dart';
 
 class CommunityScreen extends ConsumerWidget {
   const CommunityScreen({super.key, required this.name});

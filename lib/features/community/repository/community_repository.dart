@@ -4,9 +4,9 @@ import 'package:fpdart/fpdart.dart';
 import 'package:reddit_tutorial/core/constants/firebase_constants.dart';
 import 'package:reddit_tutorial/core/failure.dart';
 import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
-import 'package:reddit_tutorial/features/auth/models/community_model.dart';
 
 import '../../../core/type_defs.dart';
+import '../../../models/community_model.dart';
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));

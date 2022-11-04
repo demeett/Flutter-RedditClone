@@ -8,7 +8,7 @@ import 'package:reddit_tutorial/features/user_profile/repository/user_profile_re
 import 'package:routemaster/routemaster.dart';
 
 import '../../../core/providers/storage_repository_provider.dart';
-import '../../auth/models/user_models.dart';
+import '../../../models/user_models.dart';
 
 final userProfileControllerProvider = StateNotifierProvider<UserProfileController, bool>((ref) {
   final userProfileRepository = ref.watch(userProfileRepositoryProvider);

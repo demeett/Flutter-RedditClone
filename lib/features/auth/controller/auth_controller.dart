@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/utils.dart';
 import 'package:reddit_tutorial/features/auth/repository/auth_repository.dart';
 
-import '../models/user_models.dart';
+import '../../../models/user_models.dart';
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(

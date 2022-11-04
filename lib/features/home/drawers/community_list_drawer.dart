@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/error_text.dart';
 import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/features/auth/models/community_model.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:routemaster/routemaster.dart';
+
+import '../../../models/community_model.dart';
 
 class CommunityListDrawer extends ConsumerWidget {
   const CommunityListDrawer({super.key});

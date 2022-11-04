@@ -9,8 +9,8 @@ import 'package:reddit_tutorial/router.dart';
 import 'package:reddit_tutorial/theme/palette.dart';
 import 'package:routemaster/routemaster.dart';
 
-import 'features/auth/models/user_models.dart';
 import 'firebase_options.dart';
+import 'models/user_models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

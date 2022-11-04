@@ -12,7 +12,7 @@ return StorageRepository(firebaseStorage: ref.watch(storageProvider));
 class StorageRepository {
   final FirebaseStorage _firabaseStorage;
   StorageRepository({required FirebaseStorage firebaseStorage}) : _firabaseStorage = firebaseStorage;
-  FutureEither<String> storeFile({required String path, required String id, required File? file}) async {
+  FutureEither<String> storeFile({required String path, required String id, required File? file,}) async {
     try {
       final ref = _firabaseStorage.ref().child(path).child(id);
       UploadTask uploadTask = ref.putFile(file!);
