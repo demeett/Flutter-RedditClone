@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/providers/storage_repository_provider.dart';
 import '../../../core/utils.dart';
 import '../../../models/post_model.dart';
+import '../../user_profile/controller/user_profile_controller.dart';
 
 final postControllerProvider = StateNotifierProvider<PostController, bool>((ref) {
   final postRepository = ref.watch(postRepositoryProvider);
@@ -138,5 +139,10 @@ class PostController extends StateNotifier<bool> {
       return _postRepository.fetchUserPosts(communities);
     }
     return Stream.value([]);
+  }
+  void deletePost(Post post, BuildContext context) async {
+    final res = await _postRepository.deletePost(post);
+    //_ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.deletePost);
+    res.fold((l) => null, (r) => showSnackBar(context, 'Post Deleted successfully!'));
   }
 }

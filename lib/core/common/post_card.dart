@@ -2,6 +2,7 @@ import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
+import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
 import 'package:reddit_tutorial/theme/palette.dart';
 
 import '../../models/post_model.dart';
@@ -9,6 +10,9 @@ import '../../models/post_model.dart';
 class PostCard extends ConsumerWidget {
   final Post post;
   const PostCard({super.key, required this.post});
+  void deletePost(WidgetRef ref, BuildContext context) async {
+    ref.read(postControllerProvider.notifier).deletePost(post, context);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,7 +72,9 @@ class PostCard extends ConsumerWidget {
                             ),
                             if (post.uid == user.uid)
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    return deletePost(ref, context);
+                                  },
                                   icon: Icon(
                                     Icons.delete,
                                     color: Pallete.redColor,
@@ -86,26 +92,29 @@ class PostCard extends ConsumerWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.35,
                             width: double.infinity,
-                            child: Image.network(
-                              post.link ?? "https://picsum.photos/200/300",
-                              fit: BoxFit.cover,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18),
+                              child: Image.network(
+                                post.link ?? "https://picsum.photos/200/300",
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         if (isTypeLink)
-                          SizedBox(
+                          Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18),
                               child: AnyLinkPreview(
-                            link: "https://vardaan.app/",
-                            displayDirection: UIDirection.uiDirectionHorizontal,
-                          )),
+                                link: "https://vardaan.app/",
+                                displayDirection: UIDirection.uiDirectionHorizontal,
+                              )),
                         if (isTypeText)
                           Container(
-                            alignment: Alignment.bottomLeft,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
+                            //alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
                               child: Text(
-                                "",
-                                //post.description ?? "",
-                                style: TextStyle(color: Colors.grey),
+                                post.description ?? "",
+                                style: const TextStyle(color: Colors.grey),
                               ),
                             ),
                           ),
