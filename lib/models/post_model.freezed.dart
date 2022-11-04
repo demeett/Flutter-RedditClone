@@ -21,7 +21,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Post {
   String? get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   String? get link => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get communityName => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String title,
+      String? title,
       String? link,
       String? description,
       String? communityName,
@@ -76,7 +76,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   @override
   $Res call({
     Object? id = freezed,
-    Object? title = null,
+    Object? title = freezed,
     Object? link = freezed,
     Object? description = freezed,
     Object? communityName = freezed,
@@ -95,10 +95,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       link: freezed == link
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
@@ -159,7 +159,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String title,
+      String? title,
       String? link,
       String? description,
       String? communityName,
@@ -184,7 +184,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
   @override
   $Res call({
     Object? id = freezed,
-    Object? title = null,
+    Object? title = freezed,
     Object? link = freezed,
     Object? description = freezed,
     Object? communityName = freezed,
@@ -203,10 +203,10 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       link: freezed == link
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
@@ -287,7 +287,7 @@ class _$_Post extends _Post {
   @override
   final String? id;
   @override
-  final String title;
+  final String? title;
   @override
   final String? link;
   @override
@@ -402,7 +402,7 @@ class _$_Post extends _Post {
 abstract class _Post extends Post {
   const factory _Post(
       {required final String? id,
-      required final String title,
+      required final String? title,
       final String? link,
       final String? description,
       required final String? communityName,
@@ -422,7 +422,7 @@ abstract class _Post extends Post {
   @override
   String? get id;
   @override
-  String get title;
+  String? get title;
   @override
   String? get link;
   @override

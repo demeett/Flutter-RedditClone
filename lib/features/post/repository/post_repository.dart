@@ -6,6 +6,7 @@ import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
 
 import '../../../core/failure.dart';
 import '../../../core/type_defs.dart';
+import '../../../models/community_model.dart';
 import '../../../models/post_model.dart';
 
 final postRepositoryProvider = Provider((ref) {
@@ -18,7 +19,7 @@ class PostRepository {
   PostRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
   CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
 
-FutureVoid addPost(Post post) async {
+  FutureVoid addPost(Post post) async {
     try {
       return right(_posts.doc(post.id).set(post.toJson()));
     } on FirebaseException catch (e) {
@@ -28,6 +29,13 @@ FutureVoid addPost(Post post) async {
     }
   }
 
-
-
-} 
+  Stream<List<Post>> fetchUserPosts(List<Community> communities) {
+    return _posts
+        .where('communityName', whereIn: communities.map((e) => e.name).toList())
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs.map((e) => Post.fromJson(e.data() as Map<String, dynamic>)).toList(),
+        );
+  }
+}

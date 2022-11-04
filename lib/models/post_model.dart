@@ -7,9 +7,9 @@ part 'post_model.g.dart';
 class Post with _$Post {
   const factory Post({
     required String? id,
-    required String title,
+    required String? title,
     String? link,
-    String? description,
+    String? description, 
     required String? communityName,
     required String? communityProfilePic,
     required List<String>? upvotes,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:reddit_tutorial/features/feed/feed_screen.dart';
 
 import '../../features/post/add_post_screen.dart';
@@ -16,8 +17,8 @@ class Constants {
     AddPostScreen(),
   ];
 
-  //static const IconData up = IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
-  // static const IconData down = IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData up = IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData down = IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
   static const awardsPath = 'assets/images/awards';
 
