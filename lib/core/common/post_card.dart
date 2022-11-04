@@ -6,12 +6,21 @@ import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
 import 'package:reddit_tutorial/theme/palette.dart';
 
 import '../../models/post_model.dart';
+import '../constants/constants.dart';
 
 class PostCard extends ConsumerWidget {
   final Post post;
   const PostCard({super.key, required this.post});
   void deletePost(WidgetRef ref, BuildContext context) async {
     ref.read(postControllerProvider.notifier).deletePost(post, context);
+  }
+
+  void upvotePost(WidgetRef ref) async {
+    ref.read(postControllerProvider.notifier).upvote(post);
+  }
+
+  void downvotePost(WidgetRef ref) async {
+    ref.read(postControllerProvider.notifier).downvote(post);
   }
 
   @override
@@ -109,7 +118,7 @@ class PostCard extends ConsumerWidget {
                               )),
                         if (isTypeText)
                           Container(
-                            //alignment: Alignment.bottomLeft,
+                            alignment: Alignment.bottomLeft,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15),
                               child: Text(
@@ -120,6 +129,30 @@ class PostCard extends ConsumerWidget {
                           ),
                         Row(
                           children: [
+                            IconButton(
+                              onPressed: () {
+                                upvotePost(ref);
+                              },
+                              icon: Icon(
+                                Constants.up,
+                                size: 30,
+                                color: (post.upvotes?.contains(user.uid) ?? false) ? Pallete.redColor : null,
+                              ),
+                            ),
+                            Text(
+                              '${(post.upvotes?.length ?? 0) - (post.downvotes?.length ?? 0) == 0 ? 'Vote' : (post.upvotes?.length ?? 0) - (post.downvotes?.length ?? 0)}',
+                              style: const TextStyle(fontSize: 17),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                downvotePost(ref);
+                              },
+                              icon: Icon(
+                                Constants.down,
+                                size: 30,
+                                color: (post.downvotes?.contains(user.uid) ?? false) ? Pallete.blueColor : null,
+                              ),
+                            ),
                             Row(
                               children: [
                                 IconButton(
