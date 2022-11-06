@@ -39,6 +39,10 @@ class PostCard extends ConsumerWidget {
     Routemaster.of(context).push('/post/${post.id}/comments');
   }
 
+  void awardPost(WidgetRef ref, String award, BuildContext context) async {
+    ref.read(postControllerProvider.notifier).awardPost(post: post, award: award, context: context);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isTypeImage = post.type == 'image';
@@ -114,6 +118,23 @@ class PostCard extends ConsumerWidget {
                                   ))
                           ],
                         ),
+                        if (post.awards!.isNotEmpty) ...[
+                          const SizedBox(height: 5),
+                          SizedBox(
+                            height: 25,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: post.awards!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final award = post.awards![index];
+                                return Image.asset(
+                                  Constants.awards[award]!,
+                                  height: 23,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
@@ -211,12 +232,44 @@ class PostCard extends ConsumerWidget {
                                   ),
                                   loading: () => const Loader(),
                                 ),
+                            IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(
+                                              20,
+                                            ),
+                                            child: GridView.builder(
+                                              shrinkWrap: true,
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 4,
+                                              ),
+                                              itemCount: user.awards?.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                final award = user.awards?[index];
+
+                                                return GestureDetector(
+                                                  onTap: () => awardPost(ref, award.toString(), context),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Image.asset(Constants.awards[award]!),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                },
+                                icon: const Icon(Icons.card_giftcard_outlined))
                           ],
                         )
                       ],
                     ),
                   ),
-                  
                 ],
               ),
             ),
@@ -224,8 +277,8 @@ class PostCard extends ConsumerWidget {
         ),
       ),
       const SizedBox(
-                    height: 10,
-                  )
+        height: 10,
+      )
     ]);
   }
 }
