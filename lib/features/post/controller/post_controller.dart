@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_tutorial/core/enums/enums.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 import 'package:reddit_tutorial/features/post/repository/post_repository.dart';
+import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
+import 'package:reddit_tutorial/models/comment_model.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
@@ -18,10 +21,17 @@ final postControllerProvider = StateNotifierProvider<PostController, bool>((ref)
 
   return PostController(postRepository: postRepository, ref: ref, storageRepository: storageRepository);
 });
-
+final getPostByIdProvider = StreamProvider.family((ref, String postId) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.getPostById(postId);
+});
 final userPostsProvider = StreamProvider.family((ref, List<Community> communities) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchUserPosts(communities);
+});
+final getPostCommentsProvider = StreamProvider.family((ref, String postId) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.fetchPostComments(postId);
 });
 
 class PostController extends StateNotifier<bool> {
@@ -58,6 +68,7 @@ class PostController extends StateNotifier<bool> {
         awards: [],
         description: description);
     final res = await _postRepository.addPost(post);
+    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.textPost);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Posted Successfully');
@@ -88,6 +99,8 @@ class PostController extends StateNotifier<bool> {
         awards: [],
         link: link);
     final res = await _postRepository.addPost(post);
+    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.linkPost);
+
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Posted Successfully');
@@ -102,6 +115,8 @@ class PostController extends StateNotifier<bool> {
     required File? file,
   }) async {
     state = true;
+    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.imagePost);
+
     String postId = const Uuid().v1();
     final user = _ref.watch(userProvider);
     final imageRes = await _storageRepository.storeFile(
@@ -142,7 +157,7 @@ class PostController extends StateNotifier<bool> {
 
   void deletePost(Post post, BuildContext context) async {
     final res = await _postRepository.deletePost(post);
-    //_ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.deletePost);
+    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.deletePost);
     res.fold((l) => null, (r) => showSnackBar(context, 'Post Deleted successfully!'));
   }
 
@@ -154,5 +169,33 @@ class PostController extends StateNotifier<bool> {
   void downvote(Post post) async {
     final uid = _ref.read(userProvider)!.uid;
     _postRepository.downvote(post, uid.toString());
+  }
+
+  Stream<Post> getPostById(String postId) {
+    return _postRepository.getPostById(postId);
+  }
+
+  void addComment({
+    required BuildContext context,
+    required String text,
+    required Post post,
+  }) async {
+    final user = _ref.read(userProvider)!;
+    String commentId = const Uuid().v1();
+    Comment comment = Comment(
+      id: commentId,
+      text: text,
+      createdAt: DateTime.now(),
+      postId: post.id,
+      userName: user.name,
+      profilePic: user.profilePic,
+    );
+    final res = await _postRepository.addComment(comment);
+    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.comment);
+    res.fold((l) => showSnackBar(context, l.message), (r) => null);
+  }
+
+  Stream<List<Comment>> fetchPostComments(String postId) {
+    return _postRepository.getCommentsOfPost(postId);
   }
 }

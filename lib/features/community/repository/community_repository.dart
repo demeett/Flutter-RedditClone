@@ -7,6 +7,7 @@ import 'package:reddit_tutorial/core/providers/firebase_providers.dart';
 
 import '../../../core/type_defs.dart';
 import '../../../models/community_model.dart';
+import '../../../models/post_model.dart';
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
@@ -105,6 +106,19 @@ class CommunityRepository {
       return communities;
     });
   }
+
+  Stream<List<Post>> getCommunityPosts(String name) {
+    return _posts.where('communityName', isEqualTo: name).orderBy('createdAt', descending: true).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => Post.fromJson(
+                  e.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+        );
+  }
+  CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
 
   CollectionReference get _communities => _firestore.collection(FirebaseConstants.communitiesCollection);
 }

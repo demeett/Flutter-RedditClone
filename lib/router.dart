@@ -11,6 +11,8 @@ import 'package:reddit_tutorial/features/user_profile/screens/edit_profile_scree
 import 'package:reddit_tutorial/features/user_profile/screens/user_profile_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'features/post/screens/comments_screen.dart';
+
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
 });
@@ -47,6 +49,11 @@ final loggedInRoute = RouteMap(routes: {
   '/add-post/:type': (routeData) => MaterialPage(
         child: AddPostTypeScreen(
           type: routeData.pathParameters['type']!,
+        ),
+      ),
+  '/post/:postId/comments': (route) => MaterialPage(
+        child: CommentsScreen(
+          postId: route.pathParameters['postId']!,
         ),
       ),
 });
