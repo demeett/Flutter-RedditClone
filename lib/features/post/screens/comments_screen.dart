@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/post_card.dart';
+import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
 import 'package:reddit_tutorial/features/post/widgets/comment_card.dart';
 import 'package:reddit_tutorial/models/post_model.dart';
@@ -37,6 +38,8 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider)!;
+    final isGuest = !user.isAuthenticated!;
     return Scaffold(
       body: ref.watch(getPostByIdProvider(widget.postId)).when(
           data: (data) {
@@ -44,11 +47,12 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PostCard(post: data),
-                TextField(
-                  onSubmitted: (val) => addComment(data),
-                  controller: commentController,
-                  decoration: const InputDecoration(hintText: "What are your thoughts?", filled: true),
-                ),
+                if (!isGuest)
+                  TextField(
+                    onSubmitted: (val) => addComment(data),
+                    controller: commentController,
+                    decoration: const InputDecoration(hintText: "What are your thoughts?", filled: true),
+                  ),
                 ref.watch(getPostCommentsProvider(widget.postId)).when(
                     data: (data) {
                       return Expanded(
