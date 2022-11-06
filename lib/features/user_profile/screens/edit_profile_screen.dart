@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/error_text.dart';
@@ -22,6 +23,8 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   File? bannerFile;
   File? profileFile;
+  Uint8List? profileWebFile;
+  Uint8List? bannerWebFile;
   late TextEditingController nameController;
   @override
   void initState() {
@@ -55,7 +58,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   void save() {
     ref.read(userProfileControllerProvider.notifier).editCommunity(
-        profileFile: profileFile, bannerFile: bannerFile, context: context, name: nameController.text.trim());
+        profileWebFile: profileWebFile,
+        bannerWebFile: bannerWebFile,
+        profileFile: profileFile,
+        bannerFile: bannerFile,
+        context: context,
+        name: nameController.text.trim());
   }
 
   @override
