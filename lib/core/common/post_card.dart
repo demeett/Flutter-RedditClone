@@ -216,7 +216,7 @@ class PostCard extends ConsumerWidget {
                                     icon: const Icon(
                                       Icons.comment,
                                     ),
-                                  ),
+                                  ), 
                                   Text(
                                     '${post.commentCount == 0 ? 'Comment' : post.commentCount}',
                                     style: const TextStyle(fontSize: 17),

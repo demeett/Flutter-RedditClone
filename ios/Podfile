@@ -1,6 +1,11 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '11.0'
 
+
+# Pointing back the source to cocoapod's CDN for retrieving specs.
+# Was overwritten by privateRepo/Specs.git on earlier lines
+source 'https://cdn.cocoapods.org/'
+
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
