@@ -1,16 +1,18 @@
-# reddit_tutorial
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/71386922/207538887-3156600b-6aa9-4dd0-9715-e92e5d289710.png"  alt="1" width = 360px height = 640px ></td>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    <td><img src="https://user-images.githubusercontent.com/71386922/207539433-d30c4804-9365-471a-8158-22a62a56ab35.png" alt="2" width = 360px height = 640px></td>
+   </tr> 
+   <tr>
+      <td><img src="https://user-images.githubusercontent.com/71386922/207539753-be0f636f-31b9-4565-b00a-c0b5557650b2.png" alt="3" width = 360px height = 640px></td>
+
+      <td><img src="https://user-images.githubusercontent.com/71386922/207539980-b51ce7cc-761c-43b6-a657-ac2a20956700.png"  alt="4" width = 360px height = 640px>
+  </td>
+  </tr>
+</table>
